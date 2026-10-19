@@ -122,7 +122,7 @@
 
 <!-- ĐẶT LỊCH -->
 <section class="sec book" id="dat-lich">
-  <div class="head reveal"><p class="eyebrow">Đặt lịch</p><h2>Giữ chỗ trong 30 giây</h2><p class="sub">Điền thông tin rồi chọn kênh bạn quen dùng. Tiệm sẽ xác nhận lại ngay.</p></div>
+  <div class="head reveal"><p class="eyebrow">Đặt lịch</p><h2>Giữ chỗ trong 30 giây</h2><p class="sub">Điền thông tin và gửi, tiệm sẽ liên hệ lại để xác nhận lịch cho bạn.</p></div>
   <form class="form reveal" id="bookForm" novalidate>
     <div class="row">
       <label>Tên của bạn<input name="name" required placeholder="VD: Ngọc Anh" autocomplete="name"></label>
@@ -143,15 +143,23 @@
     <label>Ghi chú<textarea name="note" rows="2" placeholder="VD: móng ngắn, thích tông nude, mang theo ảnh mẫu…"></textarea></label>
     <div id="giftLine" class="gift" hidden></div>
 
-    <span class="lbl">Gửi lịch hẹn qua</span>
-    <div class="channels">
-      <button type="submit" data-ch="zalo" class="ch zalo">Zalo</button>
-      <button type="submit" data-ch="fb" class="ch fb">Facebook</button>
-      <button type="submit" data-ch="ig" class="ch ig">Instagram</button>
-      <button type="submit" data-ch="call" class="ch call">Gọi điện</button>
-    </div>
-    <p class="hint" id="formHint">Với Zalo &amp; Instagram, nội dung lịch hẹn sẽ được tự sao chép – bạn chỉ cần dán vào khung chat.</p>
+    <label>Tiệm liên hệ lại với bạn qua
+      <select name="channel" id="fChannel">
+        <option value="zalo">Zalo</option>
+        <option value="call">Gọi điện</option>
+        <option value="fb">Facebook</option>
+        <option value="ig">Instagram</option>
+      </select>
+    </label>
+    <button type="submit" class="btn send" id="sendBtn">Gửi lịch hẹn</button>
+    <p class="hint" id="formHint">Tiệm sẽ liên hệ lại để xác nhận lịch. Cần gấp? Gọi <a href="tel:0349392820">034 939 2820</a>.</p>
+    <p class="hint err-msg" id="formErr" role="alert" hidden></p>
   </form>
+  <div class="done" id="doneBox" role="status" hidden>
+    <h3>Đã gửi lịch hẹn</h3>
+    <p id="doneText"></p>
+    <button type="button" class="btn btn-line" id="againBtn">Đặt thêm một lịch khác</button>
+  </div>
 </section>
 
 <!-- LIÊN HỆ -->

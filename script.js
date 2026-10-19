@@ -241,31 +241,13 @@ $("#slots").addEventListener("click", e => {
 });
 renderSlots();
 
-let channel = "zalo";
-$$(".ch", form).forEach(b => b.addEventListener("click", () => channel = b.dataset.ch));
+const CH_NAME = { zalo: "Zalo", call: "điện thoại", fb: "Facebook", ig: "Instagram" };
+const sendBtn = $("#sendBtn"), formErr = $("#formErr");
+function showErr(m) { formErr.textContent = m; formErr.hidden = false; }
 
-function buildMessage(d) {
-  const [y, m, dd] = d.date.split("-");
-  const picks = GALLERY.filter(g => wish.has(g.id)).map(g => g.name).join(", ");
-  return [
-    `Chào ${CONFIG.shopName}, mình muốn đặt lịch:`,
-    `• Tên: ${d.name}`, `• SĐT: ${d.phone}`,
-    `• Dịch vụ: ${d.service || "Cần tư vấn"}`,
-    `• Thời gian: ${slot || "linh hoạt"} ngày ${dd}/${m}/${y}`,
-    picks && `• Mẫu thích: ${picks}`,
-    gift && `• Ưu đãi vòng quay: ${gift.t} (mã ${gift.code})`,
-    d.note && `• Ghi chú: ${d.note}`,
-  ].filter(Boolean).join("\n");
-}
-async function copyText(t) {
-  try { await navigator.clipboard.writeText(t); return true; }
-  catch {
-    const a = document.createElement("textarea"); a.value = t; document.body.appendChild(a); a.select();
-    try { document.execCommand("copy"); return true; } catch { return false; } finally { a.remove(); }
-  }
-}
 form.addEventListener("submit", async e => {
   e.preventDefault();
+  formErr.hidden = true;
   const d = Object.fromEntries(new FormData(form));
   let ok = true;
   ["name", "phone"].forEach(n => {
@@ -274,17 +256,28 @@ form.addEventListener("submit", async e => {
   });
   if (!ok) return toast("Bạn kiểm tra lại tên và số điện thoại nhé");
   if (!d.date) return toast("Vui lòng chọn ngày hẹn");
+  if (!CONFIG.sheetWebhook) return showErr(`Chưa gửi được lịch. Bạn vui lòng gọi ${CONFIG.phoneDisplay} để đặt lịch nhé.`);
 
-  const msg = buildMessage(d);
-  store.set("lastBooking", { ...d, slot, at: Date.now() });
-  if (CONFIG.sheetWebhook) {
-    fetch(CONFIG.sheetWebhook, { method: "POST", mode: "no-cors", keepalive: true, body: JSON.stringify({ ...d, slot, channel, gift, styles: GALLERY.filter(g => wish.has(g.id)).map(g => g.name), message: msg }) }).catch(() => {});
+  const payload = { ...d, slot, gift, styles: GALLERY.filter(g => wish.has(g.id)).map(g => g.name) };
+  sendBtn.disabled = true; sendBtn.textContent = "Đang gửi…";
+  try {
+    await fetch(CONFIG.sheetWebhook, { method: "POST", mode: "no-cors", body: JSON.stringify(payload) });
+  } catch {
+    sendBtn.disabled = false; sendBtn.textContent = "Gửi lịch hẹn";
+    return showErr(`Chưa gửi được lịch, bạn thử lại hoặc gọi ${CONFIG.phoneDisplay} giúp tiệm nhé.`);
   }
-  if (channel === "call") { toast("Đang gọi tiệm…"); location.href = LINKS.call; return; }
-  const copied = await copyText(msg);
-  const target = channel === "zalo" ? LINKS.zalo : channel === "fb" ? `${LINKS.fb}?text=${encodeURIComponent(msg)}` : LINKS.ig;
-  toast(copied ? "Đã sao chép lịch hẹn – dán vào khung chat để gửi nhé ✦" : "Mở khung chat, bạn nhập thông tin lịch hẹn nhé");
-  setTimeout(() => window.open(target, "_blank", "noopener"), 900);
+  store.set("lastBooking", { ...d, slot, at: Date.now() });
+  const [y, m, dd] = d.date.split("-");
+  $("#doneText").textContent = `Cảm ơn ${d.name.trim()}! Tiệm đã nhận lịch ${slot || "linh hoạt"} ngày ${dd}/${m}/${y} và sẽ liên hệ lại qua ${CH_NAME[d.channel] || "số điện thoại"} (${d.phone.trim()}) để xác nhận.`;
+  form.hidden = true; $("#doneBox").hidden = false;
+  $("#doneBox").scrollIntoView({ behavior: "smooth", block: "center" });
+  confetti();
+});
+$("#againBtn").addEventListener("click", () => {
+  form.reset(); fDate.value = iso(new Date()); slot = ""; renderSlots();
+  wish.clear(); store.set("wish", []); renderGallery(); renderPicked();
+  sendBtn.disabled = false; sendBtn.textContent = "Gửi lịch hẹn";
+  $("#doneBox").hidden = true; form.hidden = false;
 });
 
 /* ---------- Hiệu ứng ---------- */

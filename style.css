@@ -280,3 +280,16 @@ input,select,textarea,.slot,.ch,.pk,.gift{border-radius:var(--r)}
 .vbox{aspect-ratio:9/16;background:var(--ink);border-radius:4px;overflow:hidden;box-shadow:var(--shadow)}
 .vbox iframe{width:100%;height:100%;border:0;display:block}
 .vlink{font-size:.88rem;font-weight:600;text-decoration:underline;text-decoration-color:var(--pink);text-decoration-thickness:3px;text-underline-offset:3px}
+.send{width:100%;background:var(--pink);color:var(--ink);font-size:1.05rem;font-weight:700}
+.send:hover:not(:disabled){background:#fff;transform:translate(-2px,-2px);box-shadow:4px 4px 0 var(--rose)}
+.send:disabled{opacity:.6;cursor:wait}
+.hint a{text-decoration:underline;color:var(--pink)}
+.err-msg{color:#ff8fa8;font-weight:600}
+.done{max-width:760px;margin:0 auto;text-align:center;border:2px solid var(--pink);border-radius:var(--r);padding:36px 24px;display:grid;gap:14px;justify-items:center}
+.done h3{font-size:1.6rem}
+.done p{color:#e8dde0}
+.done .btn-line{border-color:#fff;color:#fff}
+.done .btn-line:hover{background:#fff;color:var(--ink)}
+.book .eyebrow{color:#fff}
+.book .head::after{background:#fff}
+.picked em{background:none;padding:0}
