@@ -13,7 +13,7 @@ const CONFIG = {
   hours: { open: 9, close: 21 },
   slotEveryHour: true,
   // Dán link Google Apps Script Web App để lưu lịch vào Google Sheet (để trống = không lưu)
-  sheetWebhook: "",
+  sheetWebhook: "https://script.google.com/macros/s/AKfycbwUHckfeSNltUUom8GPriXFnemEa9Khr-okz7kWslzAyaaVTlTQhB5g5sLYSjZC7YYhEw/exec",
 };
 
 /* Dịch vụ – điền price (vd "từ 150K") khi bạn chốt bảng giá */
@@ -278,7 +278,7 @@ form.addEventListener("submit", async e => {
   const msg = buildMessage(d);
   store.set("lastBooking", { ...d, slot, at: Date.now() });
   if (CONFIG.sheetWebhook) {
-    fetch(CONFIG.sheetWebhook, { method: "POST", mode: "no-cors", body: JSON.stringify({ ...d, slot, channel, gift, styles: GALLERY.filter(g => wish.has(g.id)).map(g => g.name), message: msg }) }).catch(() => {});
+    fetch(CONFIG.sheetWebhook, { method: "POST", mode: "no-cors", keepalive: true, body: JSON.stringify({ ...d, slot, channel, gift, styles: GALLERY.filter(g => wish.has(g.id)).map(g => g.name), message: msg }) }).catch(() => {});
   }
   if (channel === "call") { toast("Đang gọi tiệm…"); location.href = LINKS.call; return; }
   const copied = await copyText(msg);
