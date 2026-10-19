@@ -27,9 +27,9 @@
   <nav>
     <a href="#dich-vu">Dịch vụ</a>
     <a href="#mau-nail">Mẫu nail</a>
-    <a href="#video">Video</a>
+    <a href="#video" data-nav="video">Video</a>
     <a href="#quiz">Chọn mẫu hợp bạn</a>
-    <a href="#uu-dai">Ưu đãi</a>
+    <a href="#uu-dai" data-nav="uu-dai">Ưu đãi</a>
     <a href="#lien-he">Liên hệ</a>
   </nav>
   <a href="#dat-lich" class="btn btn-ink btn-sm">Đặt lịch</a>
@@ -40,6 +40,7 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-in">
+    <p class="promo reveal" id="promo" hidden></p>
     <p class="eyebrow reveal"><span id="openStatus" class="status">Đang kiểm tra giờ…</span></p>
     <h1 class="reveal">Nâng niu <em>từng móng</em>,<br>chiều chuộng nàng xinh.</h1>
     <p class="lead reveal">Tiệm nail tại Hóc Môn – nơi mỗi bộ móng là một tác phẩm nhỏ, làm tỉ mỉ, nhẹ tay và đúng gu của bạn.</p>
@@ -48,7 +49,7 @@
       <a href="#mau-nail" class="btn btn-line">Xem mẫu nail</a>
     </div>
     <ul class="trust reveal">
-      <li><b>Hóc Môn</b><span>cạnh chùa Minh Hòa</span></li>
+      <li><b>Hóc Môn</b><span id="trustNote">cạnh chùa Minh Hòa</span></li>
       <li><b>4</b><span>kênh đặt lịch dễ dàng</span></li>
       <li><b>1</b><span>bộ móng – 1 phong cách riêng</span></li>
     </ul>
@@ -73,22 +74,15 @@
   <div class="grid gallery" id="gallery"></div>
   <div class="tt reveal">
     <p>Muốn xem thêm mẫu mới mỗi ngày?</p>
-    <a class="btn btn-ink" id="ttLink" target="_blank" rel="noopener" href="https://www.tiktok.com/@nailxinhhocmon">Xem trên TikTok @nailxinhhocmon</a>
+    <a class="btn btn-ink" id="ttLink" target="_blank" rel="noopener" href="https://www.tiktok.com/@nailxinhhocmon">Xem trên TikTok <span class="ttName">@nailxinhhocmon</span></a>
   </div>
 </section>
 
 <!-- VIDEO TIKTOK -->
 <section class="sec" id="video">
-  <div class="head reveal"><p class="eyebrow">Video</p><h2>Xem tiệm làm nail</h2><p class="sub">Video mới nhất từ kênh TikTok @nailxinhhocmon.</p></div>
-  <div class="videos reveal">
-    <figure class="vid"><div class="vbox"><iframe src="https://www.tiktok.com/player/v1/7688985421933530389?music_info=0&description=0&rel=0" title="Video TikTok 2T's Nail" loading="lazy" allow="fullscreen; clipboard-write; encrypted-media" allowfullscreen></iframe></div>
-    <a class="vlink" target="_blank" rel="noopener" href="https://www.tiktok.com/@nailxinhhocmon/video/7688985421933530389">Mở trên TikTok ↗</a></figure>
-    <figure class="vid"><div class="vbox"><iframe src="https://www.tiktok.com/player/v1/7663059345667820820?music_info=0&description=0&rel=0" title="Video TikTok 2T's Nail" loading="lazy" allow="fullscreen; clipboard-write; encrypted-media" allowfullscreen></iframe></div>
-    <a class="vlink" target="_blank" rel="noopener" href="https://www.tiktok.com/@nailxinhhocmon/video/7663059345667820820">Mở trên TikTok ↗</a></figure>
-    <figure class="vid"><div class="vbox"><iframe src="https://www.tiktok.com/player/v1/7653721297716923669?music_info=0&description=0&rel=0" title="Video TikTok 2T's Nail" loading="lazy" allow="fullscreen; clipboard-write; encrypted-media" allowfullscreen></iframe></div>
-    <a class="vlink" target="_blank" rel="noopener" href="https://www.tiktok.com/@nailxinhhocmon/video/7653721297716923669">Mở trên TikTok ↗</a></figure>
-  </div>
-  <p class="tt"><a class="btn btn-line" target="_blank" rel="noopener" href="https://www.tiktok.com/@nailxinhhocmon">Xem tất cả video trên TikTok</a></p>
+  <div class="head reveal"><p class="eyebrow">Video</p><h2>Xem tiệm làm nail</h2><p class="sub">Video mới nhất từ kênh TikTok <span class="ttName">@nailxinhhocmon</span>.</p></div>
+  <div class="videos reveal" id="videos"></div>
+  <p class="tt"><a class="btn btn-line" id="ttAll" target="_blank" rel="noopener" href="https://www.tiktok.com/@nailxinhhocmon">Xem tất cả video trên TikTok</a></p>
 </section>
 
 <!-- QUY TRÌNH -->
@@ -158,7 +152,7 @@
       </select>
     </label>
     <button type="submit" class="btn send" id="sendBtn">Gửi lịch hẹn</button>
-    <p class="hint" id="formHint">Tiệm sẽ liên hệ lại để xác nhận lịch. Cần gấp? Gọi <a href="tel:0349392820">034 939 2820</a>.</p>
+    <p class="hint" id="formHint">Tiệm sẽ liên hệ lại để xác nhận lịch. Cần gấp? Gọi <a id="hintPhone" href="tel:0349392820">034 939 2820</a>.</p>
     <p class="hint err-msg" id="formErr" role="alert" hidden></p>
   </form>
   <div class="done" id="doneBox" role="status" hidden>
@@ -173,14 +167,14 @@
   <div class="head reveal"><p class="eyebrow">Ghé tiệm</p><h2>Địa chỉ &amp; giờ mở cửa</h2></div>
   <div class="contact">
     <div class="info reveal">
-      <p><b>Địa chỉ</b><br>40/7 Đặng Thúc Vịnh, Hóc Môn, TP.HCM<br><small>Gần Coopmart, cạnh chùa Minh Hòa</small></p>
+      <p><b>Địa chỉ</b><br><span id="addrText">40/7 Đặng Thúc Vịnh, Hóc Môn, TP.HCM</span><br><small id="addrNote">Gần Coopmart, cạnh chùa Minh Hòa</small></p>
       <p><b>Giờ mở cửa</b><br><span id="hoursText"></span></p>
-      <p><b>Hotline / Zalo</b><br><a id="phoneLink" href="tel:0349392820">034 939 2820</a> · <a href="tel:0936300648">093 630 0648</a></p>
+      <p><b>Hotline / Zalo</b><br><span id="phones"></span></p>
       <div class="socials" id="socials"></div>
-      <a class="btn btn-ink" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=40/7+Đặng+Thúc+Vịnh,+Hóc+Môn,+Hồ+Chí+Minh">Chỉ đường</a>
+      <a class="btn btn-ink" id="dirBtn" target="_blank" rel="noopener" href="https://www.google.com/maps/dir/?api=1&destination=40/7+Đặng+Thúc+Vịnh,+Hóc+Môn,+Hồ+Chí+Minh">Chỉ đường</a>
     </div>
     <div class="map reveal">
-      <iframe title="Bản đồ 2T's Nail" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+      <iframe id="mapFrame" title="Bản đồ 2T's Nail" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
         src="https://www.google.com/maps?q=40/7+Đặng+Thúc+Vịnh,+Hóc+Môn,+Hồ+Chí+Minh&output=embed"></iframe>
     </div>
   </div>
